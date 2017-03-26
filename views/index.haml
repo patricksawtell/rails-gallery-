@@ -1,0 +1,27 @@
+%h1 All images
+
+.row	
+	%ul.list-unstyled
+		- @images.each do |image|
+			%li.col-md-4
+				%h3=image.title
+
+				%p
+					%a{href: image.file, data: { lightbox: "gallery", title: image.title } }
+						%img{src: image.file.url(:small), width: "100%"}
+
+				%p	
+					%div(class="sharethis-inline-share-buttons" st_url="#{request.base_url}/images/#{image.id}")
+
+-if @auth
+	%h1 Upload new image
+
+	%form(action="/images" method="post" enctype="multipart/form-data")
+		%p
+			%input(type="file" name="image[file]" id="file")
+
+		%p
+			%input(type="text" name="image[title]" class="form-control" placeholder="Enter image title.")
+
+		%p
+			%button(class="btn btn-primary") Upload!
